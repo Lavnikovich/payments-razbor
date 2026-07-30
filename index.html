@@ -1,0 +1,238 @@
+<!DOCTYPE html><html lang="ru"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>EasyStaff и Solar Staff — разбор для нашего сервиса</title><style>
+:root{--bg:#f4f5f7;--card:#fff;--ink:#14171c;--ink2:#4a5568;--muted:#8a94a6;--line:#e6e8ec;
+--accent:#2a5bd7;--accent2:#6b46c1;--good:#0a7d33;--good-bg:#e6f4ea;--blue:#1852c4;--blue-bg:#e8eefc;
+--amber:#8a5a00;--amber-bg:#fdf2d8;--indigo:#4a3aa7;--indigo-bg:#ece9fb;--red:#b3261e;--red-bg:#fce8e6;--radius:12px}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:15.5px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px 90px}
+.hd{padding:30px 0 14px}
+.hd .eyebrow{font-size:12px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--accent)}
+h1{font-size:27px;line-height:1.2;margin:10px 0 6px;letter-spacing:-.01em}
+.hd .meta{font-size:13px;color:var(--muted)}
+.warn{background:var(--amber-bg);border-left:4px solid #e0a11a;border-radius:8px;padding:10px 14px;margin:14px 0;font-size:13px;color:#5c4300}
+.tabs{position:sticky;top:0;z-index:20;display:flex;gap:4px;flex-wrap:wrap;background:color-mix(in srgb,var(--bg) 90%,transparent);backdrop-filter:blur(8px);padding:10px 0;border-bottom:1px solid var(--line);margin-bottom:22px}
+.tab{border:1px solid var(--line);background:var(--card);color:var(--ink2);border-radius:100px;padding:8px 16px;font-size:13.5px;font-weight:650;cursor:pointer;transition:.12s}
+.tab:hover{border-color:var(--accent)}
+.tab.active{background:var(--accent);color:#fff;border-color:var(--accent)}
+.panel{display:none;animation:f .2s}
+.panel.active{display:block}
+@keyframes f{from{opacity:0;transform:translateY(4px)}to{opacity:1}}
+h2{font-size:22px;margin:8px 0 12px;letter-spacing:-.01em}
+h3{font-size:17px;margin:26px 0 8px}
+h4{font-size:14.5px;margin:18px 0 6px;color:var(--ink)}
+p{margin:10px 0}
+ul,ol{margin:10px 0;padding-left:22px}li{margin:4px 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:18px 22px;margin:16px 0;box-shadow:0 1px 3px rgba(16,24,40,.04)}
+.tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin:16px 0}
+.tile{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:15px 16px;border-left:3px solid var(--accent)}
+.tile.g{border-left-color:var(--good)}.tile.o{border-left-color:#eb6834}.tile.v{border-left-color:var(--indigo)}.tile.r{border-left-color:var(--red)}
+.tile .tv{font-size:23px;font-weight:800;letter-spacing:-.02em;line-height:1.05}
+.tile .tl{font-size:12px;color:var(--muted);font-weight:600;margin-top:3px}
+.tile .td{font-size:11.5px;color:var(--ink2);margin-top:6px}
+.tbl{overflow-x:auto;margin:16px 0;border:1px solid var(--line);border-radius:12px}
+table{border-collapse:collapse;width:100%;font-size:13px;min-width:480px}
+th{background:#f2f4f8;text-align:left;font-weight:700;font-size:12px;padding:9px 11px;border-bottom:2px solid var(--line);color:var(--ink2)}
+td{padding:8px 11px;border-bottom:1px solid var(--line);vertical-align:top;line-height:1.42}
+tr:last-child td{border-bottom:none}tbody tr:hover{background:#f7f9fc}
+.co{border:1px solid var(--line);border-left-width:4px;border-radius:8px;padding:12px 15px;margin:15px 0;font-size:13.6px;background:var(--card)}
+.co .ct{font-weight:750;font-size:12.5px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px}
+.c-i{border-left-color:var(--blue);background:var(--blue-bg)}.c-i .ct{color:var(--blue)}
+.c-w{border-left-color:#e0a11a;background:var(--amber-bg)}.c-w .ct{color:var(--amber)}
+.c-r{border-left-color:var(--red);background:var(--red-bg)}.c-r .ct{color:var(--red)}
+.c-g{border-left-color:var(--good);background:var(--good-bg)}.c-g .ct{color:var(--good)}
+.badge{display:inline-block;font-size:10.5px;font-weight:700;padding:1px 7px;border-radius:100px;vertical-align:middle}
+.b-f{background:var(--good-bg);color:var(--good)}.b-d{background:var(--blue-bg);color:var(--blue)}.b-t{background:var(--indigo-bg);color:var(--indigo)}.b-e{background:var(--amber-bg);color:var(--amber)}
+.flow{display:flex;flex-wrap:wrap;gap:0;margin:18px 0}
+.fn{flex:1;min-width:135px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:11px 13px;margin:5px 15px 5px 0;position:relative}
+.fn .fh{font-weight:700;font-size:13px}.fn .fd{font-size:11.5px;color:var(--ink2);margin-top:2px}
+.fn::after{content:"→";position:absolute;right:-14px;top:50%;transform:translateY(-50%);color:var(--accent);font-weight:800}
+.fn:last-child{margin-right:0}.fn:last-child::after{display:none}
+.chartbox{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 18px;margin:14px 0}
+.chartbox .cbt{font-weight:700;font-size:14.5px;margin-bottom:2px}.chartbox .cbs{font-size:12px;color:var(--muted);margin-bottom:8px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}@media(max-width:760px){.grid2{grid-template-columns:1fr}.fn{min-width:100%}}
+.legend{font-size:12px;color:var(--ink2);margin:6px 0}.sw{display:inline-block;width:11px;height:11px;border-radius:2px;vertical-align:middle;margin-right:4px}
+.footer{margin-top:28px;padding-top:14px;border-top:1px solid var(--line);font-size:12px;color:var(--muted)}
+@media print{.tabs{position:static}.panel{display:block!important;page-break-before:always}}
+</style></head><body>
+<div class="wrap">
+<div class="hd"><div class="eyebrow">Разбор конкурентов · для проекта платёжного сервиса</div>
+<h1>EasyStaff и Solar Staff: детальный разбор и модель нашего сервиса</h1>
+<div class="meta">Подготовлено 30 июля 2026 · на основе публичной документации, справочных центров и реестров (Литва, РФ)</div>
+<div class="warn">⚠️ Аналитический материал. Не является юридической/налоговой консультацией. Комиссии исполнителя Solar Staff и FX-спреды публично не раскрыты (отмечено). Юр./лицензионные выводы требуют подтверждения у юриста и платёжных партнёров.</div>
+</div>
+<nav class="tabs"><button class="tab active" data-tab="mkt">Рынок</button><button class="tab" data-tab="es">EasyStaff</button><button class="tab" data-tab="ss">Solar Staff</button><button class="tab" data-tab="cmp">Сравнение</button><button class="tab" data-tab="our">Наш сервис</button><button class="tab" data-tab="fin">Финансы</button></nav>
+<section class="panel active" id="p-mkt">
+<h2>Рынок и возможность</h2>
+<p class="lead">Сегмент «оплата удалённых исполнителей» — крупный и быстрорастущий, а его санкционная фрагментация открывает нишу: глобальные игроки массово отрезали Беларусь и Россию, а региональные (Solar Staff, EasyStaff, Mellow) — прибыльны и растут.</p>
+<div class="tiles">
+  <div class="tile g"><div class="tv">$10,3 млрд</div><div class="tl">Рынок freelance-платформ, 2025</div><div class="td">CAGR 15,2% → $37,2 млрд к 2034 <span class="badge b-e">оценка</span></div></div>
+  <div class="tile"><div class="tv">$4,7 млрд</div><div class="tl">Рынок EOR, 2025</div><div class="td">CAGR 6,5%; payroll-аутсорсинг — $12,8 млрд</div></div>
+  <div class="tile v"><div class="tv">13,8 млн</div><div class="tl">Самозанятых в РФ (июнь 2025)</div><div class="td">7,8 млн (2023) → 10,7 (2024) → 13,8; далее до 16,4 млн</div></div>
+  <div class="tile o"><div class="tv">~119 млрд ₽/мес</div><div class="tl">Платежи бизнеса самозанятым (июнь 2025)</div><div class="td">Адресный B2C-поток для платформ типа Solar Staff/EasyStaff</div></div>
+  <div class="tile"><div class="tv">$17,3 млрд</div><div class="tl">Оценка Deel (потолок ниши)</div><div class="td">Series E $300 млн, окт. 2025 — ориентир масштаба</div></div>
+  <div class="tile r"><div class="tv">2,4 млн ₽</div><div class="tl">Лимит самозанятого/год</div><div class="td">Ограничивает объём на одного исполнителя</div></div>
+</div>
+
+<div class="co c-g"><div class="ct">◆ Главная возможность: ниша, расчищенная санкциями</div>
+Эталонные игроки закрыты для нашей аудитории: <b>Ruul</b> банит РФ/РБ/Казахстан; <b>Xolo Leap</b> недоступен (Эстония закрыла e-Residency РБ/РФ); <b>Upwork</b> ушёл из РБ/РФ (2022); <b>Remote</b> исключает РБ и РФ. Спрос русскоязычных исполнителей на «белый» вывод никуда не делся. Ближайший работающий игрок — <b>Mellow</b> (СНГ + крипто + CoR), его слабости (непрозрачные FX/вывод) — точки атаки.</div>
+
+<h3>Ключевые конкуренты (сводно)</h3>
+<div class="tbl"><table><thead><tr><th>Компания</th><th>Сегмент</th><th>Модель</th><th>Комиссия</th><th>→ РБ/КР</th><th>Роль для нас</th></tr></thead><tbody><tr><td>Solar Staff</td><td>Самозанятые/агентства РФ/СНГ</td><td>Генподрядчик + посредник</td><td>2–3,5% / «от 3%»</td><td>~/~</td><td>Прямой лидер, эталон модели</td></tr><tr><td>EasyStaff</td><td>Фрилансеры ЕС/UAE (талант СНГ)</td><td>Комиссионер, 3 продукта</td><td>3–6% + метод</td><td>~/~</td><td>Прямой, эталон продукта/тарифов</td></tr><tr><td>Mellow</td><td>СНГ-подрядчики</td><td>CoR + крипто</td><td>3,5–5,5%</td><td>✓/✓</td><td>Главный прямой конкурент в СНГ</td></tr><tr><td>Deel/Remote</td><td>Глобальный EOR</td><td>EOR/контрактор</td><td>$29–599/мес</td><td>огранич.</td><td>Ценовой/UX-эталон, РФ отрезана</td></tr><tr><td>Ruul/Xolo</td><td>AoR/инвойс</td><td>Инвойс от лица платформы</td><td>5–5,9%</td><td>✗/частично</td><td>Эталон механики, регион закрыт</td></tr></tbody></table></div>
+<p style="font-size:12.5px;color:var(--muted)">Полный разбор рынка, 25+ конкурентов, юрисдикций (Беларусь/Кыргызстан) и финмодели — в отдельном отчёте «Payroll-платформа СНГ-ЦА» (вкладки ниже — детальные разборы двух ключевых сервисов).</p>
+</section><section class="panel" id="p-es">
+<h2>EasyStaff — детальный разбор</h2>
+<p>Сервис международных выплат фрилансерам с <b>тремя продуктами</b> под одним аккаунтом (SSO, кросс-переходы в шапке). Юридически — <b>комиссионер</b> («единый поставщик услуг»): в договоре с заказчиком EasyStaff = Contractor, фрилансеры = субподрядчики. Прибыльный bootstrapped-бизнес.</p>
+
+<div class="tbl"><table><thead><tr><th>Юрлицо</th><th>Страна</th><th>Рег.</th><th>Роль</th></tr></thead><tbody><tr><td>EasyStaff UAB</td><td>Литва</td><td>305643163</td><td>Оферент Payroll/Invoice, сторона договора, контролёр данных</td></tr><tr><td>EASYSTAFF LP</td><td>Шотландия</td><td>SL036041</td><td>Connect; операц. счёт «New York, USA» (Deel/стоки); холд до 180 дн.</td></tr><tr><td>EasyStaff Ltd DOO</td><td>Черногория</td><td>03487156</td><td>Альтернативная сторона Connect</td></tr></tbody></table></div>
+<p style="font-size:12.5px;color:var(--muted)">Применимое право — Великобритания. Расхождение: в справке для заказчиков указан LP (Шотландия), в договоре — UAB (Литва).</p>
+
+<h3>Три продукта</h3>
+<div class="tiles">
+  <div class="tile"><div class="tv">Payroll</div><div class="tl">Заказчик платит своим исполнителям</div><div class="td"><b>Не self-service:</b> тариф — через аккаунт-менеджера (анкета), договор — через XodoSign. 4 шага до первого платежа.</div></div>
+  <div class="tile v"><div class="tv">Invoice</div><div class="tl">Фрилансер выставляет инвойс клиенту</div><div class="td">Почти self-service; при регистрации отдельная KYC policy. Методы вывода: ACH/SEPA/SWIFT/USDT/карты RU/рос. счета.</div></div>
+  <div class="tile g"><div class="tv">Connect</div><div class="tl">Маркетплейс-биржа + Safe Deal + DAO</div><div class="td">Регистрация фрилансера — мастер «Шаг N/4», публичный профиль <code>connect.easystaff.io/easylancer/…</code>, KYC до 24 ч.</div></div>
+</div>
+
+<h3>Реальные комиссии (подтверждено докой + экранами кабинетов)</h3>
+<div class="tbl"><table><thead><tr><th>Продукт</th><th>Операция</th><th>Кто платит</th><th>Ставка</th></tr></thead><tbody><tr><td>Payroll</td><td>Тариф FIX (PayPal/банк)</td><td>Заказчик</td><td>39 € / 42 $ за вывод (+1% крипто, +3% карта)</td></tr><tr><td>Payroll</td><td>Тариф «Процент»</td><td>Заказчик</td><td>3% / 4% / 5% по обороту</td></tr><tr><td>Payroll</td><td>Пополнение картой</td><td>Заказчик</td><td>10%</td></tr><tr><td>Connect</td><td>Доп-сбор при оплате в <b>EUR</b></td><td>Фрилансер</td><td><b>+3,25%</b> (видно в настройках профиля)</td></tr><tr><td>Connect</td><td>Доп-сбор при оплате в <b>USD</b></td><td>Фрилансер</td><td><b>+5,25%</b></td></tr><tr><td>Connect/Invoice</td><td>Мин. сумма банковского перевода</td><td>—</td><td><b>$1 000</b> (из фичреквеста DAO — «слишком высоко»)</td></tr><tr><td>Invoice</td><td>Входящий: банк / карта EUR / карта USD</td><td>Фрилансер</td><td>6% / 9,25% / 11,25%</td></tr><tr><td>Invoice</td><td>Вывод: карта / SEPA / SWIFT / USDT</td><td>Фрилансер</td><td>1,5%+0,5 / 0 / €15 / 2%(+€5)</td></tr><tr><td>Все</td><td>Реферальная программа</td><td>—</td><td>10% от комиссии EasyStaff, 12 мес</td></tr></tbody></table></div>
+
+<h3>Методы вывода (из кабинета Invoice)</h3>
+<p>ACH (США), SEPA, <b>SWIFT (не для РФ/Беларуси)</b>, <b>USDT ERC-20 / TRC-20</b>, Bank Card (Visa/MC), <b>Bank Card RU</b>, <b>Russian bank accounts</b> (тип получателя: физлицо/ИП/юрлицо; счёт 20 цифр, БИК 9 цифр, кириллица в имени). Явно учтена гео-специфика РФ/Беларуси. Баланс — двойной (USD + EUR).</p>
+
+<div class="co c-i"><div class="ct">◆ Trusted-статус (геймификация доверия)</div>
+Бонусы: выплаты <b>без hold-периода</b>, крипто-выплаты, мгновенные <b>Paylink</b>. Условие (Invoice): нет чарджбэков за 4 мес + <b>2 из 3</b>: ≥3 клиентов / ≥20 платежей / оборот &gt;3000 €/$.</div>
+
+<h3>DAO (Connect) — реальный работающий модуль</h3>
+<p>EasyStaff Connect DAO: казна формируется из <b>3% Benefit Fee с клиентов</b>; токены (utility, не ценные бумаги) начисляются как <b>% от оборота</b> пользователя и за рефералов; ежемесячные выплаты пропорционально холдингу (мин. €1, меньше — сжигается). Голосование Soft (совещательное, ≥20% токенов, консенсус 70%) и Hard (бюджеты/параметры, кворум 50%→20%). <b>EasyStaff держит фиксированные 10% токенов</b> и обязуется не поднимать базовые 3% и не брать доп-комиссий; EasyStaff = «эксклюзивный внешний юр- и фин-провайдер» сообщества.</p>
+<div class="tbl"><table><thead><tr><th>Показатель DAO (июнь 2026)</th><th>Значение</th></tr></thead><tbody><tr><td>Total DAO Benefit Fee (накоплено)</td><td>€72 749,38</td></tr><tr><td>DAO Benefit Fee за месяц</td><td>€5 898,10</td></tr><tr><td>Total DAO tokens earned</td><td>54 793,07</td></tr><tr><td>Токенхолдер №1</td><td>EasyStaff Connect (сам сервис)</td></tr><tr><td>White Paper</td><td>v1 от 01.09.2025</td></tr></tbody></table></div>
+
+<h3>Маркетинг</h3>
+<ul>
+<li><b>Telegram-каналы по продуктам</b> (напр. @easystaffinvoice — EasyStaff Invoice & Connect, <b>4,89К подписчиков</b>, ежедневные посты: обучение фрилансеров, английские фразы, работа с неплатящими клиентами, фичи, DAO, промо-регистрация, поддержка-бот).</li>
+<li><b>Личные аккаунт-менеджеры в Telegram</b> по каждому продукту (напр. «Elena Shved — Account manager at EasyStaff Invoice», часы 09:00–18:00) — персональные продажи/поддержка.</li>
+<li><b>Реферальная программа</b> 10% от комиссий, пассивный доход 12 мес.</li>
+<li><b>Отзыв за скидку</b>: «1 месяц сниженного тарифа за отзыв»; просьбы об отзыве на G2.</li>
+<li><b>Кросс-продажи</b> между продуктами (Payroll→Connect, Invoice→Connect) + переключатели в шапке.</li>
+<li>Поддержка в интерфейсе — виджет Carrot quest с выходом в Telegram.</li>
+<li>Facebook «EasyStaff.Payroll» существует (для аудитории Payroll), но контент закрыт robots.txt — не верифицировали. <span class="badge b-e">ограничение</span></li>
+</ul>
+
+<div class="co c-w"><div class="ct">⚠ UX-шероховатости (из прохода по кабинетам)</div>
+Payroll — не self-service (аккаунт-менеджер + XodoSign, скрытый ручной шаг). Непоследовательная локализация Connect (Шаг 1/4 то EN, то RU; микс «Продолжить/Save/Skip»). Телефон по умолчанию +1 (США) даже для РБ/РФ. Опечатки («legall form», «Walled ID»). Терминологический разнобой («Sign Up as Customer» при роли Business).</div>
+</section><section class="panel" id="p-ss">
+<h2>Solar Staff — детальный разбор</h2>
+<p>Сервис расчётов с внештатными исполнителями, лидер русскоязычного рынка. В РФ — <b>Генеральный Подрядчик</b> (ООО «Солар Стафф РУС»): берёт исполнителей в субподряд, выставляет заказчику единый счёт <b>с НДС</b>, выдаёт акт/УПД и <b>автоматически отчуждает заказчику все права на РИД</b>.</p>
+
+<div class="co c-i"><div class="ct">◆ Как это реально используется у вас (из ваших материалов)</div>
+Под «исполнителем» в вашем кабинете — <b>ваша собственная команда</b> (~<b>58 исполнителей</b> на самозанятости). То есть Solar Staff у вас уже работает как <b>канал выплат собственной команде через самозанятость</b> — это и есть та рабочая модель, которую логично повторить отдельным сервисом.</div>
+
+<div class="tbl"><table><thead><tr><th>Юрлицо</th><th>Страна</th><th>Роль</th></tr></thead><tbody><tr><td>ООО «Солар Стафф РУС» (ИНН 7733228841)</td><td>Россия</td><td>Генподрядчик РФ; сторона договора; налоговый агент по НДФЛ</td></tr><tr><td>TMS SolarWeb Ltd (HE 329931)</td><td>Кипр</td><td>Международный оператор (Terms 2023, право Кипра/UNCITRAL)</td></tr><tr><td>«Solar Staff AM» LLC</td><td>Армения</td><td>Узел ЕАЭС</td></tr><tr><td>Контур Гонконга</td><td>Гонконг</td><td>Право/HKIAC оферты нерезидента 2025 (не Кипр!)</td></tr></tbody></table></div>
+
+<h3>Налоговые статусы исполнителя (из инструкции)</h3>
+<div class="tbl"><table><thead><tr><th>Статус</th><th>Ставка</th><th>Лимит/год</th><th>Особенности</th></tr></thead><tbody><tr><td>Физлицо</td><td>13–22% (прогрессия), Solar Staff — налоговый агент</td><td>нет</td><td>Удерживает НДФЛ; выплата дольше</td></tr><tr><td>Самозанятый (НПД)</td><td>6%</td><td>2,4 млн ₽</td><td>Банк 131 — авто-чеки в «Мой налог» (бесплатно)</td></tr><tr><td>ИП</td><td>от 6%</td><td>—</td><td>Сам ведёт учёт</td></tr></tbody></table></div>
+<div class="co c-w"><div class="ct">⚠ Замечено в интерфейсе Solar Staff</div>Прогрессивная шкала физлица показана как 18→15→18→20→22%, при заголовке «13–22%» и норме НК РФ 13% на первые 2,4 млн — похоже на баг отображения. Стоит перепроверить на живом кабинете.</div>
+
+<h3>Онбординг и выплаты (сторона исполнителя, 6 шагов)</h3>
+<ol>
+<li>Верификация аккаунта + добавление <b>ИНН</b> (без ИНН вывод недоступен).</li>
+<li>Профиль и специализация.</li>
+<li>Выбор/смена налогового статуса (раздел «Налоги»).</li>
+<li>Для самозанятых — подключить <b>Банк 131</b> (авто-чеки НПД).</li>
+<li>Приём заданий: <b>1–5 числа</b> на почту приходят задания (сумма + наименование) → принять договор-оферту → «Приступить» → приложить файл → «Завершить».</li>
+<li>Вывод: баланс (RUB/USD/EUR) → карта/кошелёк/счёт; кнопки «Все/500/1000», автовыплата; <b>зачисление до 6 рабочих дней</b>.</li>
+</ol>
+<p><b>Модель выплат — помесячный батч:</b> задания 1–5 числа, статус «Оплачена» 5-го числа → на баланс → вывод. Документы: акты и счета помесячно (опция «Другие валюты»); чеки НПД — автоматически.</p>
+
+<h3>Комиссии, деньги, права</h3>
+<ul>
+<li><b>Комиссия заказчика:</b> «от 3%» (сайт) / 2–3,5% (G2) + НДС + 3% сбор на интернет-рекламу (с 04.2025). На стороне заказчика видны 2 колонки: «Стоимость» и «Компенсация исполнителю» — разница = маржа.</li>
+<li><b>Комиссия исполнителя за вывод — публично НЕ раскрыта</b> (и в ваших материалах тоже; оферта относит платёжные комиссии на исполнителя, п.7.6).</li>
+<li><b>Safe Deal:</b> средства резервируются; при отмене задачи <b>мгновенно</b> возвращаются заказчику; исполнителю гарантирована оплата за принятые задачи; оплатить принятую задачу заказчик обязан в течение 60 дней.</li>
+<li><b>Отчуждение РИД</b> (оферта п.3.1–3.3): права переходят заказчику автоматически и в полном объёме, исполнитель прав не сохраняет — <b>сильнейшая сторона Solar Staff</b>.</li>
+<li><b>KYC:</b> Sumsub (в ваших материалах провайдер не показан — там только «Подтвердить личность»).</li>
+</ul>
+
+<div class="co c-i"><div class="ct">◆ Ваша практика комплаенса (из чек-листа)</div>
+Правило «двойного соответствия» категории: (1) под вид деятельности заказчика, (2) строго из каталога Solar Staff; выбирать услуги <b>без маркировки рекламы и без URL</b> — «чтобы избежать лишних проверок». Дедлайн задачи — минимум +24 часа. Это тоже стоит заложить в наш продукт (каталог услуг + подсказки по категориям).</div>
+</section><section class="panel" id="p-cmp">
+<h2>EasyStaff vs Solar Staff</h2>
+<p>Обе — <b>принципал</b> (комиссионер / генподрядчик), не агент. Различие — в фокусе: Solar Staff заточен под РФ/СНГ, EasyStaff — под западного заказчика с талантом из СНГ.</p>
+<div class="tbl"><table><thead><tr><th>Параметр</th><th>EasyStaff</th><th>Solar Staff</th><th>Кто сильнее</th></tr></thead><tbody><tr><td>Юр. модель</td><td>Комиссионер (UAB/LP/DOO, право UK)</td><td>Генподрядчик (РФ) + Кипр/Армения/Гонконг</td><td>≈</td></tr><tr><td>Продукты</td><td>3 (Payroll/Invoice/Connect)</td><td>1 (+ каталог, API, масс. загрузка)</td><td>EasyStaff (линейка)</td></tr><tr><td>Налоговые статусы</td><td>Нет</td><td>Физлицо/самозанятый/ИП</td><td><b>Solar Staff</b></td></tr><tr><td>Налоговый агент</td><td>Нет (исполнитель сам)</td><td>НДФЛ (физлица), чек НПД</td><td><b>Solar Staff</b></td></tr><tr><td>Права на ИС</td><td>Внешний шаблон, текст скрыт</td><td>Автоотчуждение (п.3.1–3.3)</td><td><b>Solar Staff</b></td></tr><tr><td>Документы РФ</td><td>ЕС-формат</td><td>Акт/счёт-фактура/УПД, НДС, ЭДО</td><td><b>Solar Staff</b></td></tr><tr><td>Прозрачность тарифов</td><td>Публичная матрица + видно в кабинете</td><td>«от 3%», индивидуально</td><td><b>EasyStaff</b></td></tr><tr><td>Комиссия заказчика</td><td>FIX 39–42 + %; Percent 3–5%</td><td>2–3,5% / «от 3%» + НДС</td><td>EasyStaff (яснее)</td></tr><tr><td>Комиссия исполнителя</td><td>Прозрачна (Connect +3,25/+5,25%; Invoice 6–11,25%)</td><td>Не раскрыта</td><td><b>EasyStaff</b></td></tr><tr><td>Способы вывода</td><td>Карта/SEPA/SWIFT/USDT/RU-карты/рос.счета</td><td>Карта/кошелёк/счёт; USDT (публично)</td><td>≈ (оба учитывают РФ)</td></tr><tr><td>Крипто</td><td>USDT ERC-20/TRC-20 (Trusted)</td><td>USDT (комиссия не раскрыта)</td><td>EasyStaff (прозрачнее)</td></tr><tr><td>Маркетплейс</td><td>Connect (эскроу + DAO)</td><td>Нет</td><td>EasyStaff</td></tr><tr><td>DAO/токены</td><td>Есть (реальный модуль)</td><td>Нет</td><td>EasyStaff (уникально)</td></tr><tr><td>Модель выплат</td><td>По приёмке задачи</td><td>Помесячный батч (1–5 → 5-е)</td><td>≈</td></tr><tr><td>Возвраты</td><td>После приёмки нет; холд 180 дн (LP)</td><td>Safe Deal, мгновенный возврат резерва</td><td>Solar Staff</td></tr><tr><td>Реф. программа</td><td>10% комиссии, 12 мес</td><td>Не публична</td><td>EasyStaff</td></tr></tbody></table></div>
+<div class="co c-g"><div class="ct">▶ Что берём</div><b>Ядро — модель Solar Staff</b> (генподряд + 3 статуса + отчуждение РИД + РФ-документы + Safe Deal + каталог). <b>Прозрачность и продукт — EasyStaff</b> (публичная тарифная матрица, 3-продуктовая линейка, Cover Fee, реферралка, крипто-first). Подробности — вкладка «Наш сервис».</div>
+</section><section class="panel" id="p-our">
+<h2>Наш сервис — что берём и как строим</h2>
+
+<div class="co c-r"><div class="ct">✕ Правка модели</div>
+<b>ZaleyCash — это отдельный сервис</b> (оплата рекламных сетей / арбитраж трафика), не наш платёжный рельс. Из схемы нашего сервиса убран. Платёжный контур уточняем отдельно (см. ниже «Подтвердить у Паши»).</div>
+
+<div class="co c-i"><div class="ct">◆ Наша базовая модель = ваша же практика</div>
+Вы уже платите своей команде (~58 человек) через Solar Staff по самозанятости, с документами и отчуждением РИД. Наш сервис = <b>та же схема, но своя</b>: компании РФ/РБ (и вы сами как первый клиент) платят исполнителям, платформа оформляет договор, документы, налоги и выплату, удерживая комиссию.</div>
+
+<h3>Что взять из каждого</h3>
+<div class="tbl"><table><thead><tr><th>Из EasyStaff</th><th>Из Solar Staff</th></tr></thead><tbody><tr><td>Публичная тарифная матрица + калькулятор</td><td>Генподряд + отчуждение РИД (п.3.1–3.3)</td></tr><tr><td>3-продуктовая сегментация (выплаты/инвойс/биржа)</td><td>Разделение статусов (физлицо/самозанятый/ИП)</td></tr><tr><td>Cover Fee (заказчик берёт комиссию вывода)</td><td>Налоговый агент НДФЛ + авто-чек НПД (Банк 131)</td></tr><tr><td>Реферальная программа 10%</td><td>Полный РФ-пакет (акт/счёт-фактура/УПД, НДС, ЭДО)</td></tr><tr><td>Крипто-вывод первым классом + Trusted</td><td>Safe Deal (резерв + гарантия + мгновенный возврат)</td></tr><tr><td>Личные аккаунт-менеджеры + Telegram-контент</td><td>Каталог услуг + правила категорий (комплаенс)</td></tr></tbody></table></div>
+
+<h3>Рекомендуемая схема движения денег</h3>
+<div class="flow">
+  <div class="fn"><div class="fh">Заказчик РФ/РБ</div><div class="fd">Оферта: единый поставщик; прозрачная комиссия ~5% + честный FX</div></div>
+  <div class="fn"><div class="fh">Наш сервис</div><div class="fd">Субподряд + отчуждение РИД; документы; налоги</div></div>
+  <div class="fn"><div class="fh">Приём (партнёр/эскроу)</div><div class="fd">Деньги через лицензированного партнёра, не как принципал</div></div>
+  <div class="fn"><div class="fh">Выплата исполнителю</div><div class="fd">Карта / СБП / USDT; РФ/СНГ/ЦА</div></div>
+  <div class="fn"><div class="fh">Документы + AML</div><div class="fd">Акт, чек; мониторинг</div></div>
+</div>
+
+<h3>Рекомендуемый тариф</h3>
+<ul>
+<li>~5% с заказчика (фасад) — конкурентно (Mellow 3,5–5,5%; Solar Staff «от 3%»; EasyStaff 3–6%).</li>
+<li>Раскрытый FX-спред 0,5–0,9% (дифференциатор — все прячут).</li>
+<li>Комиссия исполнителя за вывод 0–2% (крипто дешевле); Cover Fee — опция заказчика.</li>
+<li>Enterprise/подписка — крупным; API/white-label — второй этап.</li>
+</ul>
+
+<div class="co c-w"><div class="ct">? Подтвердить у Паши (расшифровка записи — аудио шумное, цифры на слух ненадёжны)</div>
+Записи перетранскрибированы заново (base-модель, уличный фон — часть слов не разобрать). Из разговора ясна общая логика (модель Solar Staff, крипта, СБП, коридоры KZ/GE/AM/UZ, старт с одного коридора/Upwork, «реально принимающая деньги компания» с оборотом ~4,35 и прибылью ~1,47 млн ₽). Чтобы не гадать, подтверди 6 пунктов:
+<ol style="margin:6px 0 0">
+<li>Точная схема платёжного контура (кто и как принимает деньги заказчика, кто выплачивает).</li>
+<li>Название принимающей компании (в записи звучит «ОРБС» — уточни) и её роль.</li>
+<li>Комиссия/процент вашей схемы (что берёте с заказчика/исполнителя).</li>
+<li>Целевые коридоры и валюты на старте.</li>
+<li>Лимиты/сроки, крипта — да/нет и через кого.</li>
+<li>Кто «заказчик» в записи и роль Паши (CEO).</li>
+</ol></div>
+</section><section class="panel" id="p-fin">
+<h2>Финансы и оценка</h2>
+<div class="co c-w"><div class="ct">Как читать эти цифры</div>
+У обеих компаний это <b>валовое признание</b>: «выручка» ≈ платёжный поток (оборот/GMV), а себестоимость = выплаты исполнителям, поэтому чистая маржа тонкая (~1%). То есть €140 млн (EasyStaff) и ~9,3 млрд ₽ (Solar Staff) — это ближе к <b>обороту</b>, чем к марже. Данные — из реестров (Литва, РФ); зарубежные юрлица (Кипр/Армения/Шотландия) закрыты.</div>
+
+<div class="grid2">
+<div class="chartbox"><div class="cbt">EasyStaff — оборот (выручка), млн €</div><div class="cbs">EasyStaff UAB, реестр Литвы · линия — чистая прибыль</div><svg viewBox="0 0 560 240" width="100%" role="img" style="max-width:560px"><line x1="48" y1="206.0" x2="548" y2="206.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="209.0" text-anchor="end" font-size="9" fill="#8a94a6">0</text><line x1="48" y1="159.0" x2="548" y2="159.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="162.0" text-anchor="end" font-size="9" fill="#8a94a6">41</text><line x1="48" y1="112.0" x2="548" y2="112.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="115.0" text-anchor="end" font-size="9" fill="#8a94a6">82</text><line x1="48" y1="65.0" x2="548" y2="65.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="68.0" text-anchor="end" font-size="9" fill="#8a94a6">124</text><line x1="48" y1="18.0" x2="548" y2="18.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="21.0" text-anchor="end" font-size="9" fill="#8a94a6">165</text><rect x="67.0" y="204.1" width="62.0" height="1.9" rx="3" fill="#1baf7a"/><text x="98.0" y="200.1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">1.6</text><text x="98.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2021</text><rect x="167.0" y="181.3" width="62.0" height="24.7" rx="3" fill="#1baf7a"/><text x="198.0" y="177.3" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">21.7</text><text x="198.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2022</text><rect x="267.0" y="157.2" width="62.0" height="48.8" rx="3" fill="#1baf7a"/><text x="298.0" y="153.2" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">42.8</text><text x="298.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2023</text><rect x="367.0" y="100.8" width="62.0" height="105.2" rx="3" fill="#1baf7a"/><text x="398.0" y="96.8" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">92.3</text><text x="398.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2024</text><rect x="467.0" y="46.7" width="62.0" height="159.3" rx="3" fill="#1baf7a"/><text x="498.0" y="42.7" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">140</text><text x="498.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2025</text><text x="48" y="11" font-size="9.5" fill="#8a94a6">млн €</text></svg><div class="legend"><span class="sw" style="background:#1baf7a"></span>Оборот &nbsp;&nbsp;<span class="sw" style="background:#eb6834"></span>Прибыль (отд. график ниже)</div></div>
+<div class="chartbox"><div class="cbt">EasyStaff — чистая прибыль, млн €</div><div class="cbs">Тонкая маржа при кратном росте оборота</div><svg viewBox="0 0 560 240" width="100%" role="img" style="max-width:560px"><line x1="48" y1="206.0" x2="548" y2="206.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="209.0" text-anchor="end" font-size="9" fill="#8a94a6">0</text><line x1="48" y1="159.0" x2="548" y2="159.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="162.0" text-anchor="end" font-size="9" fill="#8a94a6">0</text><line x1="48" y1="112.0" x2="548" y2="112.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="115.0" text-anchor="end" font-size="9" fill="#8a94a6">1</text><line x1="48" y1="65.0" x2="548" y2="65.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="68.0" text-anchor="end" font-size="9" fill="#8a94a6">1</text><line x1="48" y1="18.0" x2="548" y2="18.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="21.0" text-anchor="end" font-size="9" fill="#8a94a6">2</text><rect x="67.0" y="203.0" width="62.0" height="3.0" rx="3" fill="#eb6834"/><text x="98.0" y="199.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">0.0</text><text x="98.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2021</text><rect x="167.0" y="161.2" width="62.0" height="44.8" rx="3" fill="#eb6834"/><text x="198.0" y="157.2" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">0.5</text><text x="198.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2022</text><rect x="267.0" y="180.1" width="62.0" height="25.9" rx="3" fill="#eb6834"/><text x="298.0" y="176.1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">0.3</text><text x="298.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2023</text><rect x="367.0" y="166.2" width="62.0" height="39.8" rx="3" fill="#eb6834"/><text x="398.0" y="162.2" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">0.4</text><text x="398.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2024</text><rect x="467.0" y="46.7" width="62.0" height="159.3" rx="3" fill="#eb6834"/><text x="498.0" y="42.7" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">1.6</text><text x="498.0" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2025</text><text x="48" y="11" font-size="9.5" fill="#8a94a6">млн €</text></svg></div>
+</div>
+<div class="grid2">
+<div class="chartbox"><div class="cbt">Solar Staff — выручка, млрд ₽</div><div class="cbs">ООО «Солар Стафф РУС», реестр РФ</div><svg viewBox="0 0 560 240" width="100%" role="img" style="max-width:560px"><line x1="48" y1="206.0" x2="548" y2="206.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="209.0" text-anchor="end" font-size="9" fill="#8a94a6">0</text><line x1="48" y1="159.0" x2="548" y2="159.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="162.0" text-anchor="end" font-size="9" fill="#8a94a6">3</text><line x1="48" y1="112.0" x2="548" y2="112.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="115.0" text-anchor="end" font-size="9" fill="#8a94a6">5</text><line x1="48" y1="65.0" x2="548" y2="65.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="68.0" text-anchor="end" font-size="9" fill="#8a94a6">8</text><line x1="48" y1="18.0" x2="548" y2="18.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="21.0" text-anchor="end" font-size="9" fill="#8a94a6">11</text><rect x="59.9" y="169.2" width="38.8" height="36.8" rx="3" fill="#4a3aa7"/><text x="79.2" y="165.2" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">2.1</text><text x="79.2" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2018</text><rect x="122.4" y="159.1" width="38.8" height="46.9" rx="3" fill="#4a3aa7"/><text x="141.8" y="155.1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">2.7</text><text x="141.8" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2019</text><rect x="184.9" y="149.0" width="38.8" height="57.0" rx="3" fill="#4a3aa7"/><text x="204.2" y="145.0" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">3.3</text><text x="204.2" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2020</text><rect x="247.4" y="105.1" width="38.8" height="100.9" rx="3" fill="#4a3aa7"/><text x="266.8" y="101.1" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">5.9</text><text x="266.8" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2021</text><rect x="309.9" y="84.9" width="38.8" height="121.1" rx="3" fill="#4a3aa7"/><text x="329.2" y="80.9" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">7.1</text><text x="329.2" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2022</text><rect x="372.4" y="50.6" width="38.8" height="155.4" rx="3" fill="#4a3aa7"/><text x="391.8" y="46.6" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">9.1</text><text x="391.8" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2023</text><rect x="434.9" y="46.7" width="38.8" height="159.3" rx="3" fill="#4a3aa7"/><text x="454.2" y="42.7" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">9.3</text><text x="454.2" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2024</text><rect x="497.4" y="47.4" width="38.8" height="158.6" rx="3" fill="#4a3aa7"/><text x="516.8" y="43.4" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">9.3</text><text x="516.8" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2025</text><text x="48" y="11" font-size="9.5" fill="#8a94a6">млрд ₽</text></svg></div>
+<div class="chartbox"><div class="cbt">Solar Staff — чистая прибыль, млн ₽</div><div class="cbs">Падение 2025 (110→33) — вероятно, эффект новой материнской АО (2024)</div><svg viewBox="0 0 560 240" width="100%" role="img" style="max-width:560px"><line x1="48" y1="206.0" x2="548" y2="206.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="209.0" text-anchor="end" font-size="9" fill="#8a94a6">0</text><line x1="48" y1="159.0" x2="548" y2="159.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="162.0" text-anchor="end" font-size="9" fill="#8a94a6">32</text><line x1="48" y1="112.0" x2="548" y2="112.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="115.0" text-anchor="end" font-size="9" fill="#8a94a6">65</text><line x1="48" y1="65.0" x2="548" y2="65.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="68.0" text-anchor="end" font-size="9" fill="#8a94a6">97</text><line x1="48" y1="18.0" x2="548" y2="18.0" stroke="#e6e8ec" stroke-width="1"/><text x="42" y="21.0" text-anchor="end" font-size="9" fill="#8a94a6">130</text><rect x="59.9" y="180.7" width="38.8" height="25.3" rx="3" fill="#eb6834"/><text x="79.2" y="176.7" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">17.5</text><text x="79.2" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2018</text><rect x="122.4" y="179.5" width="38.8" height="26.5" rx="3" fill="#eb6834"/><text x="141.8" y="175.5" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">18.3</text><text x="141.8" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2019</text><rect x="184.9" y="168.5" width="38.8" height="37.5" rx="3" fill="#eb6834"/><text x="204.2" y="164.5" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">25.9</text><text x="204.2" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2020</text><rect x="247.4" y="127.8" width="38.8" height="78.2" rx="3" fill="#eb6834"/><text x="266.8" y="123.8" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">54.0</text><text x="266.8" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2021</text><rect x="309.9" y="121.3" width="38.8" height="84.7" rx="3" fill="#eb6834"/><text x="329.2" y="117.3" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">58.5</text><text x="329.2" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2022</text><rect x="372.4" y="76.7" width="38.8" height="129.3" rx="3" fill="#eb6834"/><text x="391.8" y="72.7" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">89.3</text><text x="391.8" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2023</text><rect x="434.9" y="46.7" width="38.8" height="159.3" rx="3" fill="#eb6834"/><text x="454.2" y="42.7" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">110</text><text x="454.2" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2024</text><rect x="497.4" y="158.5" width="38.8" height="47.5" rx="3" fill="#eb6834"/><text x="516.8" y="154.5" text-anchor="middle" font-size="9.5" font-weight="700" fill="#333">32.8</text><text x="516.8" y="220.0" text-anchor="middle" font-size="10" fill="#52514e">2025</text><text x="48" y="11" font-size="9.5" fill="#8a94a6">млн ₽</text></svg></div>
+</div>
+
+<h3>EasyStaff UAB по годам (EUR)</h3>
+<div class="tbl"><table><thead><tr><th>Год</th><th>Оборот</th><th>Чистая прибыль</th><th>Сотрудники (UAB)</th></tr></thead><tbody><tr><td>2021</td><td>€1,64 млн</td><td>€25,6 тыс.</td><td>~1–3</td></tr><tr><td>2022</td><td>€21,7 млн</td><td>€447,8 тыс.</td><td>~3–5</td></tr><tr><td>2023</td><td>€42,8 млн</td><td>€260,5 тыс.</td><td>8</td></tr><tr><td>2024</td><td>€92,3 млн</td><td>€400,5 тыс.</td><td>6–8</td></tr><tr><td>2025</td><td>€139,8 млн</td><td>€1,60 млн</td><td>7–9</td></tr></tbody></table></div>
+<p style="font-size:12.5px;color:var(--muted)">Основана 2018 (выделилась из KiwiTaxi 2021), UAB зарегистрирована 16.10.2020. Bootstrapped (венчур отклонён). Вся группа — ~30–40 чел.</p>
+
+<h3>Solar Staff РУС по годам (RUB)</h3>
+<div class="tbl"><table><thead><tr><th>Год</th><th>Выручка</th><th>Чистая прибыль</th></tr></thead><tbody><tr><td>2018</td><td>2,15 млрд ₽</td><td>+17,5 млн</td></tr><tr><td>2019</td><td>2,74 млрд ₽</td><td>+18,3 млн</td></tr><tr><td>2020</td><td>3,33 млрд ₽</td><td>+25,9 млн</td></tr><tr><td>2021</td><td>5,89 млрд ₽</td><td>+54,0 млн</td></tr><tr><td>2022</td><td>7,07 млрд ₽</td><td>+58,5 млн</td></tr><tr><td>2023</td><td>9,07 млрд ₽</td><td>+89,3 млн</td></tr><tr><td>2024</td><td>9,30 млрд ₽</td><td>+110,0 млн</td></tr><tr><td>2025</td><td>9,26 млрд ₽</td><td>+32,8 млн</td></tr></tbody></table></div>
+<p style="font-size:12.5px;color:var(--muted)">Основана 2015. 100%-владелец — АО «Солар Стафф» (2024). Инвестиции/оценка публично не раскрыты; де-факто founder-owned. Ориентир глобального масштаба (~2020): оборот ~5 млрд ₽ ≈ $67 млн выплат, ~50 чел.</p>
+
+<div class="co c-i"><div class="ct">◆ Вывод для нас</div>
+Оба — <b>прибыльные операционно эффективные бизнесы</b>, не венчурные «единороги»: EasyStaff вышел на €140 млн оборота при 8 сотрудниках. Модель масштабируется без внешних денег; тонкая маржа компенсируется объёмом и FX/крипто. Потолок ниши — Deel ($17,3 млрд), но реалистичный ориентир для нас — операционная прибыльность на обороте, как у этих двух.</div>
+</section>
+<div class="footer">Источники: easystaff.io (help-center, DAO white paper, кабинеты Payroll/Invoice/Connect), hd.solar-staff.ru + help.solarstaff.com + оферты, реестры Литвы (tax.lt/okredo) и РФ (saby/RBC), рыночные отчёты. Данные проверены на 30.07.2026.</div>
+</div>
+<script>
+document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
+  document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+  document.getElementById('p-'+b.dataset.tab).classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+});
+</script>
+</body></html>
