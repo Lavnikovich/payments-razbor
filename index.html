@@ -81,7 +81,7 @@ tr:last-child td{border-bottom:none}tbody tr:hover{background:#f7f9fc}
 <div class="meta">Подготовлено 30 июля 2026 · публичная документация, справочные центры, реестры (Литва, РФ), проход по кабинетам, DAO white paper</div>
 <div class="warn">⚠️ Аналитический материал. Не является юридической/налоговой консультацией. Комиссии исполнителя Solar Staff и FX-спреды публично не раскрыты (отмечено). Юр./лицензионные выводы требуют подтверждения у юриста и платёжных партнёров.</div>
 </div>
-<nav class="tabs"><button class="tab active" data-tab="mkt">Рынок</button><button class="tab" data-tab="es">EasyStaff</button><button class="tab" data-tab="ss">Solar Staff</button><button class="tab" data-tab="mel">Mellow</button><button class="tab" data-tab="cmp">Сравнение</button><button class="tab" data-tab="our">Наш сервис</button><button class="tab" data-tab="fin">Финансы</button></nav>
+<nav class="tabs"><button class="tab active" data-tab="mkt">Рынок</button><button class="tab" data-tab="es">EasyStaff</button><button class="tab" data-tab="ss">Solar Staff</button><button class="tab" data-tab="mel">Mellow</button><button class="tab" data-tab="cmp">Сравнение</button><button class="tab" data-tab="our">Наш сервис</button><button class="tab" data-tab="fin">Финансы</button><button class="tab" data-tab="pasha">Схема Паши</button></nav>
 <section class="panel active" id="p-mkt">
 <h2>Рынок и возможность</h2>
 <p class="lead">Сегмент «оплата удалённых исполнителей» — крупный и быстрорастущий, а его санкционная фрагментация открывает нишу: глобальные игроки массово отрезали Беларусь и Россию, а региональные (Solar Staff, EasyStaff, Mellow) — прибыльны и растут.</p>
@@ -1818,6 +1818,129 @@ compliance-панель.</li>
 </section>
 <div class="footer">Источники: easystaff.io (help-center, DAO white paper, кабинеты Payroll/Invoice/Connect, Telegram @easystaffinvoice), hd.solar-staff.ru + help.solarstaff.com + оферты + инструкции исполнителя, реестры Литвы (tax.lt/okredo) и РФ (saby/RBC), рыночные отчёты. Экраны — ваш проход по кабинетам. Данные проверены на 30.07.2026.</div>
 </div>
+<section class="panel" id="p-pasha">
+<style>
+#p-pasha .ps-wrap{max-width:1040px;margin:0 auto;color:#1a2130;
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.4}
+#p-pasha h2{margin:0 0 4px}
+#p-pasha .ps-sub{color:#5b6577;font-size:14px;margin:0 0 22px}
+#p-pasha .ps-warn{background:#fdf6e7;border:1px solid #f0e0b8;color:#7a5a12;border-radius:10px;
+  padding:11px 14px;font-size:13.5px;margin:0 0 20px}
+#p-pasha .ps-blk{display:flex;gap:14px;background:#fff;border:1px solid #e2e6ec;border-radius:14px;
+  padding:20px 22px;margin:0 0 18px;box-shadow:0 1px 2px rgba(20,30,60,.04)}
+#p-pasha .ps-bn{flex:0 0 auto;width:30px;height:30px;border-radius:50%;background:#3a5bd9;color:#fff;
+  font-weight:700;font-size:15px;display:flex;align-items:center;justify-content:center;margin-top:4px}
+#p-pasha .ps-bn.grey{background:#b9c0cc}
+#p-pasha .ps-body{flex:1;min-width:0}
+#p-pasha .ps-htxt{font-size:15px;font-weight:700;margin:0 0 14px}
+#p-pasha .ps-pct{border:1.5px solid #3a5bd9;color:#3a5bd9;border-radius:7px;padding:0 9px;font-size:13px;font-weight:700;margin-left:8px}
+#p-pasha .ps-diagram{display:flex;align-items:stretch;gap:0}
+#p-pasha .ps-agg{flex:0 0 auto;align-self:stretch;display:flex;align-items:center;justify-content:center;
+  text-align:center;border:2.5px solid #0f9d6b;background:#e8f6ef;border-radius:12px;padding:14px 16px;
+  font-weight:700;font-size:14.5px;width:150px}
+#p-pasha .ps-parties{flex:1;display:flex;flex-direction:column;gap:12px;justify-content:center}
+#p-pasha .ps-prow{display:flex;align-items:center}
+#p-pasha .ps-conn{display:flex;flex-direction:column;gap:6px;min-width:150px;padding:0 8px}
+#p-pasha .ps-conn .ps-l{font-size:12px;color:#5b6577;white-space:nowrap;text-align:center;line-height:1.2}
+#p-pasha .ps-in{color:#0f9d6b;font-weight:700}
+#p-pasha .ps-out{color:#3a5bd9;font-weight:700}
+#p-pasha .ps-box{border:1.5px solid #c7cfdd;background:#fff;border-radius:10px;padding:9px 14px;
+  font-size:13.5px;font-weight:600;text-align:center;min-width:132px}
+#p-pasha .ps-box .ps-s{display:block;font-weight:400;color:#5b6577;font-size:11.5px;margin-top:2px}
+#p-pasha .ps-box.own{border-color:#0f9d6b;background:#f2fbf6;border-style:dashed}
+#p-pasha .ps-box.exit{border:2px solid #0f9d6b;background:#0f9d6b;color:#fff;min-width:92px}
+#p-pasha .ps-box.dash{border-style:dashed;color:#5b6577}
+#p-pasha .ps-tail{display:flex;align-items:center}
+#p-pasha .ps-tarr{color:#8a94a6;font-weight:700;padding:0 8px;font-size:15px}
+#p-pasha .ps-lbox{border-radius:10px;padding:10px 14px;text-align:center}
+#p-pasha .ps-lbox.lead{border:2px solid #3a5bd9;background:#eef1fb}
+#p-pasha .ps-lbox.gp{border:2px solid #0f9d6b;background:#e8f6ef}
+#p-pasha .ps-agg2{width:auto;flex-direction:column;gap:10px;align-items:stretch;padding:14px}
+#p-pasha .ps-lttl{font-weight:700;font-size:13.5px}
+#p-pasha .ps-juris{color:#5b6577;font-size:12.5px;margin-top:2px}
+#p-pasha .ps-lv{text-align:center;font-size:16px;color:#8a94a6;line-height:.9}
+#p-pasha .ps-ovals{flex:1;display:flex;flex-direction:column;gap:9px;justify-content:center;padding-left:6px}
+#p-pasha .ps-oval{border:1.5px solid #0f9d6b;border-radius:26px;padding:7px 15px;font-size:13px;font-weight:600;background:#f2fbf6;text-align:center}
+#p-pasha .ps-q{background:#fffdf5;border:1px solid #ecdca6;border-radius:12px;padding:14px 18px;color:#7a5a12;font-size:14px}
+#p-pasha .ps-q b{color:#8a5a00}#p-pasha .ps-q ul{margin:8px 0 0;padding-left:20px}#p-pasha .ps-q li{margin:4px 0}
+#p-pasha .ps-ok{color:#0f9d6b;font-size:13px}
+@media(max-width:660px){#p-pasha .ps-diagram{flex-direction:column}#p-pasha .ps-agg{width:100%;align-self:auto}#p-pasha .ps-conn{flex-direction:row;min-width:0;padding:8px 0}}
+</style>
+<div class="ps-wrap">
+  <h2>Схема Паши — структура трёх направлений</h2>
+  <p class="ps-sub">Оцифровка листа и сообщения (03.08.2026). Расположение как в оригинале: агрегатор слева, контрагенты справа.</p>
+  <div class="ps-warn">🔑 Общий паттерн: у каждого направления <b>три контрагента</b> — клиент (платит) · внешний поставщик · <b>«свой» поставщик</b>, через которого идёт <b>«Выход»</b> (обкешивание). Под ними — слой юрлиц (Агрегатор → Генподрядчик) в 5 юрисдикциях.</div>
+
+  <div class="ps-blk">
+    <div class="ps-bn">1</div>
+    <div class="ps-body">
+      <div class="ps-htxt">Агрегатор поиска аренды техники + механизмы<span class="ps-pct">%</span></div>
+      <div class="ps-diagram">
+        <div class="ps-agg">АГРЕГАТОР</div>
+        <div class="ps-parties">
+          <div class="ps-prow"><div class="ps-conn"><span class="ps-l"><span class="ps-in">◀ деньги</span></span><span class="ps-l"><span class="ps-out">техника + акт ▶</span></span></div><div class="ps-box">Арендатор<span class="ps-s">клиент</span></div></div>
+          <div class="ps-prow"><div class="ps-conn"><span class="ps-l"><span class="ps-in">◀ техника</span></span><span class="ps-l"><span class="ps-out">деньги ▶</span></span></div><div class="ps-box">Арендодатель<span class="ps-s">внешний</span></div></div>
+          <div class="ps-prow"><div class="ps-conn"><span class="ps-l"><span class="ps-in">◀ техника</span></span><span class="ps-l"><span class="ps-out">деньги ▶</span></span></div><div class="ps-box own">Свой арендодатель</div><div class="ps-tail"><span class="ps-tarr">▶</span><div class="ps-box exit">ВЫХОД</div><span class="ps-tarr">▶</span><div class="ps-box">Банк</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ps-blk">
+    <div class="ps-bn">2</div>
+    <div class="ps-body">
+      <div class="ps-htxt">Агрегатор поиска фрилансеров и исполнителей услуг<span class="ps-pct">%</span></div>
+      <div class="ps-diagram">
+        <div class="ps-agg">АГРЕГАТОР</div>
+        <div class="ps-parties">
+          <div class="ps-prow"><div class="ps-conn"><span class="ps-l"><span class="ps-in">◀ деньги</span></span><span class="ps-l"><span class="ps-out">услуги + акт ▶</span></span></div><div class="ps-box">Заказчик<span class="ps-s">клиент</span></div></div>
+          <div class="ps-prow"><div class="ps-conn"><span class="ps-l"><span class="ps-in">◀ услуга</span></span><span class="ps-l"><span class="ps-out">деньги ▶</span></span></div><div class="ps-box">Подрядчик<span class="ps-s">внешний</span></div></div>
+          <div class="ps-prow"><div class="ps-conn"><span class="ps-l"><span class="ps-in">◀ услуга</span></span><span class="ps-l"><span class="ps-out">деньги ▶</span></span></div><div class="ps-box own">Свой подрядчик</div><div class="ps-tail"><span class="ps-tarr">▶</span><div class="ps-box exit">ВЫХОД</div></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ps-blk">
+    <div class="ps-bn" style="background:#6b76c9">Ю</div>
+    <div class="ps-body">
+      <div class="ps-htxt">Юрлица — маршрутизация денег</div>
+      <div class="ps-diagram">
+        <div class="ps-agg ps-agg2">
+          <div class="ps-lbox lead"><div class="ps-lttl">АГРЕГАТОР</div><div class="ps-juris">РБ · ОАЭ · РФ · Кипр · Эстония</div></div>
+          <div class="ps-lv">▼</div>
+          <div class="ps-lbox gp"><div class="ps-lttl">ГЕНПОДРЯДЧИК</div><div class="ps-juris">ОАЭ · РБ · Польша · Кипр · Эстония</div></div>
+        </div>
+        <div class="ps-ovals">
+          <span class="ps-oval">поиск исполнителя + пригонка</span>
+          <span class="ps-oval">свой подрядчик → ВЫХОД</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ps-blk">
+    <div class="ps-bn grey">3</div>
+    <div class="ps-body">
+      <div class="ps-htxt">Рабочий трафик</div>
+      <div class="ps-diagram">
+        <div class="ps-agg" style="border-color:#c7cfdd;background:#fff;color:#1a2130">Рабочий трафик</div>
+        <div class="ps-parties"><div class="ps-prow"><div class="ps-conn"><span class="ps-l"><span class="ps-out">▶</span></span></div><div class="ps-box dash">? ?</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="ps-q">
+    <b>Осталось сверить:</b>
+    <ul>
+      <li><b>«ВЫХОД»</b> — куда уходят деньги (банк / крипта / карта) и кому?</li>
+      <li>Блок 3 <b>«Рабочий трафик»</b> — рекламный трафик / ZaleyCash или другое?</li>
+    </ul>
+    <span class="ps-ok">✅ Подтверждено: блок 2 «услуги + акт»; генподрядчик «РП» = Польша.</span>
+  </div>
+</div>
+</section>
+
 <div class="lb" id="lb"><span class="x" onclick="closeLB()">×</span><span class="nav prev" onclick="stepLB(-1)">‹</span><img id="lbimg" alt=""><span class="nav nxt" onclick="stepLB(1)">›</span><div class="lbc" id="lbc"></div></div>
 <script>
 document.querySelectorAll('.tab').forEach(b=>b.onclick=()=>{
